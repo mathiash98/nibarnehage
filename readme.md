@@ -1,6 +1,11 @@
 # Nettside for Nesttun Indremisjons Barnehage
 https://nibarnehage.no
 
+## Requirements
+mongodb
+
+nodejs (tested version 7.\*)
+
 ## Initialisering
 ```
 npm install
