@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="no">
+{{> head}}
+
+<body>
+    {{> navbar}}
+    <div class="">
+      <iframe id="kontaktGmap" width="100%" height="350vh" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=place_id:ChIJs1SYzsn5PEYRUN9mYoUUs3U&key=AIzaSyDhneeK5HzC-JwNiX6-4qIxnRT06fcf_Rg" allowfullscreen></iframe>
+      <!-- Container -->
+    </div>
+    <div class="container-fluid">
+
+        <div class="row center-block">
+
+            <div class="col-xs-12 col-sm-4 center-text">
+                <div class="">
+                    <h3><span class="glyphicon glyphicon-map-marker"></span> Besøks- og kontaktadresse</h3>
+                    <p>Øvsttunveien 58 5223 Nesttun</p>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 center-text">
+                <div class="">
+                    <h3><span class="glyphicon glyphicon-time"></span> Åpningstid</h3>
+                    <p>07:15-16:30</p>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-4 center-text">
+              <div class="">
+                <h3><span class="glyphicon glyphicon-earphone"></span> Telefon og <span class="glyphicon glyphicon-envelope"></span> Mail</h3>
+                <p>55 10 07 24</p>
+                <p>nesttun.barnehage@indrem.no</p>
+              </div>
+            </div>
+
+        </div>
+        <!-- row -->
+    </div>
+    <div class="divider"></div>
+    <div class="section container-fluid">
+      <div class="container om-oss-container">
+        <h1>Om oss</h1>
+
+        <div class="divider"></div>
+        <div class="row">
+          <div class="col-sm-6">
+            <p>{{breaklines textBox1.data}}</p>
+          </div>
+          <div class="col-sm-6">
+            <img src="/img/bilde1.jpg" alt="Uteområde">
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="row">
+          <div class="col-sm-6">
+            <img src="/img/bilde2.jpg" alt="Uteområde">
+          </div>
+          <div class="col-sm-6">
+            <p>{{breaklines textBox2.data}}</p>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+        <div class="row">
+          <div class="col-sm-6">
+            <p>{{breaklines textBox3.data}}</p>
+          </div>
+          <div class="col-sm-6">
+            <img src="/img/bilde2.jpg" alt="Uteområde">
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+    {{> footer}}
+</body>
+
+</html>

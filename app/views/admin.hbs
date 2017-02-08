@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="no">
+{{> head}}
+
+<body>
+    {{> navbar}}
+
+  <div class="divider"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <ul>
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">NettsideInfo <b class="caret"></b></a>
+                        <ul class="dropdown-menu" id="adminMenuPages">
+                            <li><a onclick='getAndRenderPage("/admin/pagedata/index")'>Forside</a></li>
+                            <li><a onclick='getAndRenderPage("/admin/pagedata/om-oss")'>Om oss</a></li>
+                        </ul>
+                    </li>
+                    <li><a onclick='getAndRenderInnlegg("/admin/innlegg")'>Innlegg</a></li>
+                    {{!-- <li><a onclick='getAndRenderPage("/admin/foresatteKoder")'>ForesatteKoder</a></li>
+                    <li><a onclick='getAndRenderPage("/admin/kalender")'>Kalender</a></li>
+                    <li><a onclick='getAndRenderPage("/admin/foreldreportal")'>Foreldreportal</a></li> --}}
+                    <li><a onclick='getAndRenderAlbums("/admin/album")'>Bilder</a></li>
+                </ul>
+            </div>
+            <div class="col-md-10">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Profile Information</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>Brukernavn: {{user.username}}</p>
+                        <p>Admin: {{user.admin}}</p>
+                    </div>
+                </div>
+                <div id="containerData" class="container-fluid">
+                </div>
+                <script src="js/admin.js" charset="utf-8"></script>
+            </div>
+        </div>
+    </div>
+
+    <div id="requestMsgBox">
+
+    </div>
+
+    {{> footer}}
+</body>
+
+</html>

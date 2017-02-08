@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="no">
+{{> head}}
+
+<body>
+    {{> navbar}}
+    <div class="container">
+      {{#each list}}
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">{{name}}</h3>
+        </div>
+        <div class="panel-body">
+          <p>{{data}}</p>
+        </div>
+        <div class="panel-footer">
+          <p ><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> <span class="dateTime">{{added}}</span></p>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+
+
+    <script type="text/javascript">
+      var timeObjects = document.getElementsByClassName("dateTime");
+      console.log(timeObjects);
+      for (var i = 0; i < timeObjects.length; i++) {
+        timeObjects[i].innerHTML = timeObjects[i].innerHTML.substring(0,21);
+      }
+    </script>
+
+    {{> footer}}
+</body>
+
+</html>

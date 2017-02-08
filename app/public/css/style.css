@@ -1,0 +1,182 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: rgb(253, 253, 253);
+  bottom: 60px;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+.navbar {
+  background-color: #fdfdfd;
+  margin-bottom: 0px;
+}
+
+.nav > .active > a,
+.nav li > a:hover,
+.navbar-nav > li > a:focus{
+  background-color: #93C524 !important;
+  color: #fff !important;
+}
+
+.navbar-nav > li > a {
+  min-width: 75px;
+  text-align: center;
+}
+.nav>li>a {
+  padding-left: 5px !important;
+  padding-right: 5px !important;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+p {
+  font-size: 12pt;
+}
+
+.carousel-caption {
+  font-size: 15pt;
+}
+
+.footer {
+  /* Set the fixed height of the footer here */
+  height: 40px;
+  background-color: #56371B;
+  color: #FED622;
+  display: block;
+  margin-top: 20px; /* space between content and footer */
+  padding-top: 8px;
+  position: relative;
+  width: 100%;
+  vertical-align: bottom;
+}
+
+.editable {
+  padding: 0.3vw;
+  border: 1px solid grey;
+}
+
+.container {
+  padding: 1vh;
+  max-width: 1050px;
+
+}
+.om-oss-container p {
+  font-size: 14pt;
+  font-weight: 400;
+  text-align: center;
+}
+.om-oss-container h1 {
+  font-size: 40pt;
+  text-align: center;
+}
+
+.overlap {
+  position: relative;
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.center-text {
+  text-align: center;
+}
+
+.jumbotron {
+  max-width: 1500px;
+}
+
+.active {
+  background-color: rgb(147, 197, 36);
+}
+
+#adminLoginForm {
+  max-width: 400px;
+  margin: auto;
+}
+
+#frontPageCarousel {
+  max-height: 550px;
+  max-width: 800px;
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel-inner .item img {
+  width: 100%;
+}
+.quote_text {
+  font-size: 2em;
+  font-style: italic;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+  color: white;
+}
+
+.divider {
+  border: 3px #ffd823 solid;
+  width: 10vw;
+  margin: auto;
+  margin-top: 1.5vh;
+  margin-bottom: 1.5vh;
+}
+.section {
+  padding-top: 2vh;
+  padding-bottom: 2vh;
+}
+#quote_section {
+  background: #F25141;
+}
+#quick_contact_section {
+  font-size: 1.3em;
+  background: #87572D;
+  color: white;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  margin-bottom: -20px;
+}
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+.col-centered{
+  float: none;
+  margin:0 auto;
+}
+
+img {
+  max-width: 100%;
+}
+
+/*============================= sok-barnehageplass_section====================*/
+#sok-barnehageplass_section {
+  background-color: lightblue;
+}
+.stegList > li {
+  font-size: 18pt;
+  font-weight: 400;
+  margin-bottom: 5px;
+}
+.stegCol > h2 {
+  font-size: 25pt;
+  font-weight: 500;
+}
+@media only screen and (min-width: 1200px) {
+  .stegCol {
+    margin-top: 10vh;
+  }
+}
+
+#requestMsgBox {
+  position: fixed;
+  bottom:0;
+  max-width: 900px;
+  margin: auto;
+  opacity: 1;
+  z-index: 1;
+}
