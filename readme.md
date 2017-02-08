@@ -11,6 +11,7 @@ nodejs (tested version 7.\*)
 npm install
 node index
 ```
+Endre secret i "./config.js" for password hashing
 
 Legg til en bruker POST-request til localhost:8080/signup
 ```
