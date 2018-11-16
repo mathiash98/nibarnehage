@@ -1,6 +1,15 @@
 # Nettside for Nesttun Indremisjons Barnehage
 https://nibarnehage.no
 
+En nettside laget på oppdrag fra Nesttun Indremisjons Barnehage. Her var det fokus på at de ansatte kunne laste opp bilder, filer, og innlegg som de foresatte skal ha tilgang til.
+
+# Funksjoner:
+* Adminside hvor de ansatte kan endre tekstbokser på nettsiden
+* Adminside hvor de kan laste opp bilder og fjerne bilder
+* Laste opp filer som blir konvertert til pdf
+* Passordbeskyttet foreldreportal hvor de kan se på bilder som er lastet opp
+* Generell info om barnehagen
+
 ## Requirements
 mongodb
 
