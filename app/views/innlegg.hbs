@@ -20,13 +20,17 @@
       {{/each}}
     </div>
 
-
+    <script src="js/anchorme.min.js" charset="utf-8"></script>
     <script type="text/javascript">
       var timeObjects = document.getElementsByClassName("dateTime");
       console.log(timeObjects);
       for (var i = 0; i < timeObjects.length; i++) {
         timeObjects[i].innerHTML = timeObjects[i].innerHTML.substring(0,21);
       }
+      document.querySelectorAll(".panel-body p").forEach(function (el) {
+        console.log(el);
+        el.innerHTML = anchorme(el.innerHTML);
+      });
     </script>
 
     {{> footer}}

@@ -1,35 +1,46 @@
 # Nettside for Nesttun Indremisjons Barnehage
+
 https://nibarnehage.no
 
 En nettside laget på oppdrag fra Nesttun Indremisjons Barnehage. Her var det fokus på at de ansatte kunne laste opp bilder, filer, og innlegg som de foresatte skal ha tilgang til.
 
 # Funksjoner:
-* Adminside hvor de ansatte kan endre tekstbokser på nettsiden
-* Adminside hvor de kan laste opp bilder og fjerne bilder
-* Laste opp filer som blir konvertert til pdf
-* Passordbeskyttet foreldreportal hvor de kan se på bilder som er lastet opp
-* Generell info om barnehagen
+
+- Adminside hvor de ansatte kan endre tekstbokser på nettsiden
+- Adminside hvor de kan laste opp bilder og fjerne bilder
+- Laste opp filer som blir konvertert til pdf
+- Passordbeskyttet foreldreportal hvor de kan se på bilder som er lastet opp
+- Generell info om barnehagen
+
+## Oppdatering etter 7 år:
+
+Bildefunksjon er ikke så viktig lenger og kan erstattes med en enklere løsning. For eksempel kunne man gått over til en enkel Wordpress side, dette ville vært billigere og enklere å vedlikeholde.
 
 ## Requirements
+
 mongodb
 
 nodejs (tested version 7.\*)
 
 ## Initialisering
+
 ```
 npm install
 node index
 ```
+
 Endre secret i "./config.js" for password hashing
 
 Legg til en bruker POST-request til localhost:8080/signup
+
 ```
 curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "Cache-Control: no-cache" -d 'username=USERNAME&password=PASSWORD' "http://localhost:8080/signup"
 ```
+
 Du må deretter inn i databasen, gjerne via robomongo eller shell og endre admin feltet til true. Dette er ikke mulig via API call
 
-
 Oppsett av mongodb database:
+
 ```
 use NIBarnehage
 db.pagedata.insert({
@@ -75,6 +86,5 @@ db.pagedata.insert({
     "__v" : 0
 });
 ```
-
 
 Du kan nå endre data og laste opp bilder på localhost:8080/admin

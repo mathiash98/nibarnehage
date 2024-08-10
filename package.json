@@ -19,6 +19,7 @@
     "mongoose": "^4.7.6",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "sharp":"*"
+    "request": "^2.81.0",
+    "sharp": "*"
   }
 }

@@ -5,16 +5,17 @@ var passport = require('passport');
 var hbs = require('hbs');
 const async = require('async');
 var mongoose = require("mongoose");
-var emb = require("../customDeps/express-mongo-busboy.js")({mongoose:mongoose});
+var embImg = require("../customDeps/embImg.js")({mongoose:mongoose});
+var embFile = require("../customDeps/embFile.js")({mongoose:mongoose});
 var Grid = require('gridfs-stream');
-var conf = require('../config.js')
+var conf = require('../config.js');
 var gfs = Grid(mongoose.connection, mongoose.mongo);
 
 
 var User = require('../app/models/user.js');
 var PageData = require('../app/models/pageData.js');
 var Innlegg = require('../app/models/innlegg.js');
-var ForesatteKoder = require('../app/models/foresatteKoder.js');
+var FileCategory = require('../app/models/fileCategory.js');
 var Bilde = require('../app/models/bilde.js');
 var Album = require('../app/models/album.js');
 
@@ -39,7 +40,7 @@ var isAdminAuthenticated = function(req, res, next) {
       return res.render('adminLogin');
     }
 }
-var adminIsAuthenticated = function(req, res, next) {
+var adminIsAuthenticatedReturnJson = function(req, res, next) {
     if (req.user) {
         if (req.user.admin) {
             return next();
@@ -154,7 +155,6 @@ router.get('/sok-barnehageplass', function(req, res) {
 
         res.render('sok-barnehageplass', pageBoxes);
     });
-
 });
 router.get('/foreldreportal', function (req, res) {
   if (req.user) {
@@ -216,6 +216,20 @@ router.get('/innlegg', function(req, res) {
         });
     });
 });
+router.get('/planer', function(req, res) {
+  gfs.files.find({"metadata.category" : 'plan'}, { _id: 1, filename: 1, uploadDate: 1 }).toArray(function (err, files) {
+    if (err) {
+      console.log(err);
+      res.render('planer', {
+        files:[{"filename":"error"}]
+      });
+    } else {
+      res.render('planer', {
+        files:files.reverse()
+      });
+    }
+  });
+});
 router.get('/admin', isAdminAuthenticated, function(req, res) {
         async.parallel({
                 pages: function(cb) {
@@ -231,9 +245,89 @@ router.get('/admin', isAdminAuthenticated, function(req, res) {
                 });
             });
 });
+// ==================== Admin file related stuff
+// TODO add function for storing files to gridfs, add some metadata
+// When asking for files: Look through gridfs files and output files with metadata tag: plan
 
+router.get('/admin/planer', function (req, res) {
+  gfs.files.find({"metadata.category" : 'plan'}, { _id: 1, filename: 1, uploadDate: 1 }).toArray(function (err, files) {
+    if (err) {
+      console.log(err);
+      res.json({
+        err: true,
+        data: err,
+        msg: "Det oppstod en feil ved henting av filer"
+      });
+    } else {
+      if (files.length != 0) {
+        res.json({
+          err: null,
+          data: files,
+          msg: "Fant "+files.length+" filer."
+        });
+      } else {
+        res.json({
+          err: true,
+          data: [],
+          msg: "Fant 0 filer."
+        });
+      }
+    }
+  });
+
+});
+router.get('/planer/:fileid', function (req, res) {
+  var _id = mongoose.Types.ObjectId(req.params.fileid);
+  gfs.findOne({ _id: _id}, function (err, file) {
+	  if (file && file.metadata) {
+	    // 2024-06-27 Added if statement to prevent website from crashing when fetching a file without metadata
+	    res.writeHead(200, {'Content-Type': file.metadata.mimetype});
+	  }
+
+    var readstream = gfs.createReadStream({_id:_id});
+    req.on('error', function(err) {
+      res.send(500, err);
+    });
+    readstream.on('error', function (err) {
+      res.send(500, err);
+    });
+    readstream.pipe(res);
+  });
+
+});
+
+router.delete('/admin/planer/:fileid', adminIsAuthenticatedReturnJson, function (req, res) {
+  console.log("Skal slette",req.params.fileid);
+  var _id = mongoose.Types.ObjectId(req.params.fileid);
+  gfs.files.remove({_id: _id}, function (err) {
+    if (err) {
+        console.log(err);
+        res.json({
+            err: true,
+            data: err,
+            msg: 'Det oppstod en feil ved sletting av fil med id: ' + req.params.fileid
+        });
+    } else {
+      console.log(req.params.fileid + " er slettet.");
+      res.json({
+          err: null,
+          data: null,
+          msg: 'Fil med id: ' + req.params.fileid + " ble slettet."
+      });
+    }
+     });
+
+});
+router.post('/admin/planer', adminIsAuthenticatedReturnJson, embFile, function (req, res) {
+  console.log(req.body.files);
+  res.json({
+    err: null,
+    data: req.body.files,
+    msg: req.body.files.length + " Fil(er) ble lastet opp til planer"
+  });
+});
 // ================== Admin edit pagedata info stuff
-router.post('/admin/pageData', adminIsAuthenticated, function(req, res) {
+router.post('/admin/pageData', adminIsAuthenticatedReturnJson, function(req, res) {
     console.log(req.body);
         console.log(req.body.textBoxes);
         var tempPageData = new PageData({
@@ -258,7 +352,7 @@ router.post('/admin/pageData', adminIsAuthenticated, function(req, res) {
             }
         });
 });
-router.put('/admin/pagedata/:id', adminIsAuthenticated, function(req, res) {
+router.put('/admin/pagedata/:id', adminIsAuthenticatedReturnJson, function(req, res) {
         console.log('Body: '+req.body);
         PageData.update({_id:req.params.id}, {"textBoxes":req.body} ,function(err, data) {
             if (err) {
@@ -277,7 +371,7 @@ router.put('/admin/pagedata/:id', adminIsAuthenticated, function(req, res) {
             }
         });
 });
-router.get('/admin/pagedata/:navn', adminIsAuthenticated, function(req, res) {
+router.get('/admin/pagedata/:navn', adminIsAuthenticatedReturnJson, function(req, res) {
   PageData.find({name:req.params.navn}, function (err,data) {
     if (err) {
       console.log(err);
@@ -321,15 +415,16 @@ router.get('/admin/album/:id', adminOrForeldre, function(req, res) {
                 data: err,
                 msg: "Det oppstod en feil ved å finne albumet."
             });
-        }
-        res.json({
+        } else {
+          res.json({
             err: null,
             data: data,
             msg: null
-        });
+          });
+        }
     });
 });
-router.post('/admin/album', adminIsAuthenticated, emb, function(req, res) {
+router.post('/admin/album', adminIsAuthenticatedReturnJson, embImg, function(req, res) {
     console.log('Body',req.body);
     var tempAlbum = new Album({
       name:req.body.name,
@@ -354,15 +449,16 @@ router.post('/admin/album', adminIsAuthenticated, emb, function(req, res) {
       }
     });
 });
-router.put('/admin/album/:id', adminIsAuthenticated, emb, function(req, res) {
-    console.log('Body',req.body);
+router.put('/admin/album/:id', adminIsAuthenticatedReturnJson, embImg, function(req, res) {
     var tempAlbum = {
       _id:req.params.id,
       name:req.body.name,
       description:req.body.description,
-      imgs:req.body.files,
     };
-    Album.findOne({_id:req.params.id}, function (err, album) {
+    if (req.body.files != '') {
+      tempAlbum.imgs = req.body.files;
+    }
+    Album.findById(req.params.id, function (err, album) {
       if (err) {
         console.log(err);
         res.json({
@@ -371,13 +467,24 @@ router.put('/admin/album/:id', adminIsAuthenticated, emb, function(req, res) {
           msg:'Det oppstod en feil ved endring av album med navn '+req.body.name
         });
       } else {
-        album.name = tempAlbum.name;
-        album.description = tempAlbum.description;
-        var imgsArr = JSON.parse(album.imgs);
-        imgsArr.push(tempAlbum.imgs);
-        album.imgs = imgsArr;
-
-        album.save(function (err, album) {
+        tmpAlbum = album;
+        tmpAlbum.name = tempAlbum.name;
+        tmpAlbum.description = tempAlbum.description;
+        tmpAlbum.edited = new Date();
+        if (req.body.files != '') {
+          // var imgsArr = JSON.parse(album.imgs);
+          var imgsArr = tmpAlbum.imgs;
+          console.log(imgsArr);
+          Array.prototype.push.apply(imgsArr, tempAlbum.imgs);
+          // for (var i = 0; i < tempAlbum.length; i++) {
+          //   console.log(tempAlbum[i], i);
+          //   album.imgs.push(tempAlbum[i]);
+          // }
+          console.log(imgsArr);
+          tmpAlbum.imgs = imgsArr;
+        }
+        console.log(album);
+        Album.update({_id:tmpAlbum._id}, tmpAlbum, function (err, info) {
           if (err) {
             console.log(err);
             res.json({
@@ -389,32 +496,15 @@ router.put('/admin/album/:id', adminIsAuthenticated, emb, function(req, res) {
             console.log('Albumet: '+album.name+' ble endret.');
             res.json({
               err:null,
-              data:album,
+              data:tmpAlbum._id,
               msg:'Albumet: '+album.name+' ble endret.'
             });
           }
         });
       }
     });
-    tempAlbum.save(function (err, album) {
-      if (err) {
-        console.log(err);
-        res.json({
-          err:true,
-          data:err,
-          msg:'Det oppstod en feil ved opprettelse av album, vennligst prøv på nytt'
-        });
-      } else {
-        console.log(album.name,'Has been created.');
-        res.json({
-          err: null,
-          data:album,
-          msg:'Album '+album.name+' er opprettet.'
-        });
-      }
-    });
 });
-router.delete('/admin/album/:id', adminIsAuthenticated, function(req, res) {
+router.delete('/admin/album/:id', adminIsAuthenticatedReturnJson, function(req, res) {
     Album.findByIdAndRemove(req.params.id, function(err, data) {
         if (err) {
             res.json({
@@ -423,31 +513,186 @@ router.delete('/admin/album/:id', adminIsAuthenticated, function(req, res) {
                 msg: "Det oppstod en feil ved å finne albumet."
             });
         }
-        res.json({
-            err: null,
-            data: data,
-            msg: "Album med navn: " + data.name + " har blitt slettet."
+        async.each(data.imgs, function(img, cb) {
+          var id = img._id;
+          console.log("Typeof id " + typeof id);
+          gfs.files.remove({_id: img._id}, function (err) {
+          // gfs.files.remove({_id: img._id}, function (err) {
+            if (err) console.log(err);
+            console.log("Slettet bilde",img._id);
+            cb();
+          });
+        }, function (err) {
+          console.log("done");
+          if (err) {
+            console.log(err);
+            res.json({
+                err: true,
+                data: err,
+                msg: "Det oppstod en feil"
+            });
+          } else {
+            res.json({
+              err: null,
+              data: null,
+              msg: "Album med navn: " + data.name + " har blitt slettet."
+            });
+          }
         });
+
+
     });
 });
 router.get('/admin/bilde/:id', adminOrForeldre, function (req,res) {
-  var bufs = [];
-  gfs.createReadStream({_id:req.params.id})
-  .on('error', function (err) {
-    res.send(err);
-  })
-  .on('data', function(chunk) {
-    bufs.push(chunk);
-  })
-  .on('end', function () {
-    var fbuf = Buffer.concat(bufs);
-    var base64 = fbuf.toString('base64');
-    // res.send(base64);
-    res.send(base64);
+  gfs.findOne({ _id: req.params.id}, function (err, file) {
+    res.writeHead(200, {'Content-Type': file.metadata.mimetype});
+    var readstream = gfs.createReadStream({_id:req.params.id});
+    req.on('error', function(err) {
+      res.send(500, err);
+    });
+    readstream.on('error', function (err) {
+      res.send(500, err);
+    });
+    readstream.pipe(res);
   });
+});
+router.delete('/admin/bilde/:albumid', adminIsAuthenticatedReturnJson, function (req,res) {
+  var deleteImgsArr = req.body;
+  if (deleteImgsArr == '') {
+    res.json({
+      err:true,
+      data:req.params.albumid,
+      msg:'Du må markere bilder.'
+    });
+  } else {
+    Album.findById(req.params.albumid, function (err, album) {
+      if (err) {
+        console.log(err);
+        res.json({
+          err:true,
+          data:err,
+          msg:'Det oppstod en feil ved sletting av bilder i album: '+req.body.name
+        });
+      } else {
+        var tempAlbum = album;
+        tempAlbum.edited = new Date();
+        if (req.body != '') {
+          // var imgsArr = JSON.parse(album.imgs);
+          // TODO replace with async.parrallell
+          async.each(deleteImgsArr, function (imgId, cb) {
+            var index = tempAlbum.imgs.map(function(x) {return String(x._id);}).indexOf(imgId);
+            if (index > -1) {
+              tempAlbum.imgs.splice(index,1);
+            }
+            var _id = mongoose.Types.ObjectId(imgId);
+            gfs.files.remove({_id: _id}, function (err) {
+              if (err) {
+                console.log(err);
+              } else {
+                console.log(imgId + " er slettet.");
+                cb();
+              }
+            });
+          }, function (err) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(deleteImgsArr.length + " bilder ble slettet.");
+            }
+          });
+
+        }
+        Album.update({_id:tempAlbum._id}, tempAlbum, function (err, info) {
+          if (err) {
+            console.log(err);
+            res.json({
+              err:true,
+              data:err,
+              msg:'Det oppstod en feil ved sletting av bilder i album med navn '+req.body.name
+            });
+          } else {
+            console.log('Albumet: '+album.name+' ble endret.');
+            res.json({
+              err:null,
+              data:tempAlbum._id,
+              msg:'Det ble slettet '+deleteImgsArr.length+' bilder i: '+album.name
+            });
+          }
+        });
+      }
+    });
+  }
 });
 
 // ================== LOGIN related api calls
+router.get('/admin/user', adminIsAuthenticatedReturnJson, function (req, res) {
+  User.find({}).lean().exec(function (err, data) {
+    if (err) {
+      console.log(err);
+      res.json({
+        err:true,
+        data:err,
+        msg:"Det oppstod en feil ved henting av brukere"
+      });
+    } else {
+      res.json({
+        err:null,
+        data:data,
+        msg:null
+      });
+    }
+  });
+});
+router.put('/admin/user/:id', adminIsAuthenticatedReturnJson, function (req, res) {
+    User.findById(req.params.id, function (err, data) {
+      tmpUser = data;
+      tmpUser.comparePass(req.body.currentPass, function (err, isMatch) {
+        if (err) {
+          console.log(err);
+          res.json({
+            err:true,
+            data:err,
+            msg:"Det oppstod en feil, vennligst prøv i gjen."
+          });
+        } else {
+          if(!isMatch) {
+          res.json({
+            err:true,
+            data:null,
+            msg:"Nåværende passord er feil, vennligst prøv på nytt."
+          });
+        } else {
+          if (req.body.currentPass == req.body.newPass) {
+            res.json({
+              err:true,
+              data:null,
+              msg:"Passord er allerede det du vil endre til."
+            });
+          } else {
+            tmpUser.password = req.body.newPass;
+            tmpUser.save(function (err, newUser) {
+              if (err) {
+                res.json({
+                  err:true,
+                  data:err,
+                  msg: "Det forekom en feil ved endring av passord."
+                });
+              }
+              res.json({
+                err:null,
+                data:newUser,
+                msg: "Passord til " + newUser.username + " er endret!"
+              });
+            });
+          }
+        }
+      }
+      });
+
+    });
+
+
+});
 //sends the request through our local login/signin strategy, and if successful takes user to homepage, otherwise returns then to signin page
 router.post('/login', passport.authenticate('local-login', {
     successRedirect: '/admin',
@@ -476,7 +721,7 @@ router.get('/logout', function(req, res) {
 });
 
 // =============================== Admin related api calls
-router.post('/admin/innlegg', adminIsAuthenticated, function(req, res) {
+router.post('/admin/innlegg', adminIsAuthenticatedReturnJson, function(req, res) {
     console.log(req.body);
     var tempInnlegg = new Innlegg({
         name: req.body.name,
@@ -500,7 +745,7 @@ router.post('/admin/innlegg', adminIsAuthenticated, function(req, res) {
         }
     });
 });
-router.get('/admin/innlegg', adminIsAuthenticated, function(req, res) {
+router.get('/admin/innlegg', adminIsAuthenticatedReturnJson, function(req, res) {
     Innlegg.find({}).sort({added: 'desc'}).lean().exec(function(err, data) {
         if (err) {
             res.json({
@@ -516,7 +761,7 @@ router.get('/admin/innlegg', adminIsAuthenticated, function(req, res) {
         });
     });
 });
-router.put('/admin/innlegg/:id', adminIsAuthenticated, function(req, res) {
+router.put('/admin/innlegg/:id', adminIsAuthenticatedReturnJson, function(req, res) {
     var tempInnlegg = new Innlegg({
         name: req.body.name,
         data: req.body.data
@@ -539,7 +784,7 @@ router.put('/admin/innlegg/:id', adminIsAuthenticated, function(req, res) {
         }
     });
 });
-router.delete('/admin/innlegg/:id', adminIsAuthenticated, function(req, res) {
+router.delete('/admin/innlegg/:id', adminIsAuthenticatedReturnJson, function(req, res) {
     console.log("remove " + req.params.id);
     Innlegg.findByIdAndRemove(req.params.id, function(err, data) {
         if (err) {

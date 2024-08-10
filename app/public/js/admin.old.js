@@ -1,81 +1,3 @@
-function getAndRenderUsers() {
-  var client = new HttpClient();
-  client.get("/admin/user", true, function (response) {
-    console.log(response);
-    var res = JSON.parse(response);
-
-    document.getElementById('containerData').innerHTML = `
-    <table class="table table-hover">
-      <thead>
-        <tr>
-          <th>Brukernavn</th>
-        </tr>
-      </thead>
-      <tbody id="usersTableBody">
-      </tbody>
-    </table>
-    `;
-    for (var i = 0; i < res.data.length; i++) {
-      // TODO add the popup box for new password
-      document.getElementById('usersTableBody').innerHTML += `
-      <tr>
-        <td>
-        ${res.data[i].username}
-          <span class="pull-right">
-            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#changePassModal${res.data[i].username}">Endre passord</button>
-
-              <!-- Modal -->
-              <div class="modal fade" id="changePassModal${res.data[i].username}" role="dialog">
-                <div class="modal-dialog modal-sm">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal">&times;</button>
-                      <h4 class="modal-title">Endre passord til ${res.data[i].username}</h4>
-                    </div>
-                    <div class="modal-body">
-
-                      <form onSubmit='changePass(event, this, "${res.data[i]._id}")'>
-                        <div class="form-group">
-                          <label for="currentPass">Gammelt passord</label>
-                          <input type="text" class="form-control" name="currentPass" placeholder="Nåværende passord">
-                        </div>
-                        <div class="form-group">
-                          <label for="newPass">Nytt passord</label>
-                          <input type="text" class="form-control" name="newPass" placeholder="Nytt passord">
-                        </div>
-                        <button class="btn btn-success" type="submit">Endre passord</button>
-                      </form>
-
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-default" data-dismiss="modal">Lukk</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-          </span>
-          </td>
-          </tr>
-      `;
-    }
-  });
-}
-
-function changePass(e, form, id) {
-  e.preventDefault();
-  var data = {
-    currentPass:form.currentPass.value,
-    newPass:form.newPass.value
-  }
-  var oReq = new XMLHttpRequest();
-  oReq.onload = ajaxSuccess;
-  oReq.open("PUT", "/admin/user/"+id);
-  oReq.setRequestHeader("content-type", "application/json");
-  oReq.send(JSON.stringify(data));
-  document.querySelector('button.close').click();
-}
-
 function getAndRenderPage(page) {
   var client = new HttpClient();
   client.get(page, true, function (response) {
@@ -202,90 +124,6 @@ function getAndRenderInnlegg(page) {
     });
 }
 
-function getAndRenderFiles(){
-  window.location.hash = "#filer/";
-  document.getElementById('containerData').innerHTML = `
-  <div class="row">
-    <form action="/admin/planer" method="post" onSubmit="postFile(event, this)" class="form-group col-md-6">
-      <input type="file" name="file" multiple required>
-      <!-- <textarea class="form-control" type="text" name="description" value="" placeholder="Beskrivelse"></textarea>
-      <div class="form-group">
-        <label for="fileFormCategoriesDropdown">Velg kategori:</label>
-        <select class="form-control" id="fileFormCategoriesDropdown">
-        </select>
-      </div> -->
-      <input type="submit" name="" value="Last opp">
-    </form>
-  </div>
-  <div class="row">
-    <ul class="list-group" id="fileListCategories">
-    </ul>
-  </div>
-  `;
-
-  var client = new HttpClient();
-  client.get("/admin/planer", true, function(response){
-    var res = JSON.parse(response);
-    document.getElementById('containerData').innerHTML += `
-    <div class="row">
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>Filnavn</th>
-            <th>id</th>
-            <th>Dato</th>
-            <th>Slett</th>
-          </tr>
-        </thead>
-        <tbody id="filesTableBody">
-        </tbody>
-      </table>
-    </div>
-    `;
-    for (var i = 0; i < res.data.length; i++) {
-      // TODO add the popup box for new password
-      document.getElementById('filesTableBody').innerHTML += `
-      <tr>
-        <td>
-          <a class="${res.data[i]._id}">${res.data[i].filename}</a>
-        </td>
-        <td>
-          ${res.data[i]._id}
-        </td>
-        <td class="dateTimeFiles">
-          ${res.data[i].uploadDate}
-        </td>
-        <td>
-          <button class="btn btn-danger" onClick='fileDelete("${res.data[i]._id}")'>Slett</button>
-        </td>
-      </tr>
-      `;
-    };
-    var timeObjects = document.getElementsByClassName("dateTimeFiles");
-    for (var i = 0; i < timeObjects.length; i++) {
-      timeObjects[i].innerHTML = timeObjects[i].innerHTML.substring(10,21);
-    }
-  });
-}
-function fileDelete(id) {
-  console.log(id);
-  var oReq = new XMLHttpRequest();
-  oReq.onload = ajaxSuccess;
-  oReq.open("delete", "/admin/planer/"+id, true);
-  oReq.send();
-  getAndRenderFiles();
-}
-function postFile(e,form) {
-  e.preventDefault();
-
-  var oReq = new XMLHttpRequest();
-  console.log(new FormData(form));
-  oReq.upload.addEventListener("progress", updateProgress);
-  oReq.onload = ajaxSuccess;
-  oReq.open("post", "/admin/planer", true);
-  oReq.send(new FormData(form));
-}
-
 function innleggPost(e, navn, data) {
   console.log('Posted innlegg ' + navn);
   e.preventDefault();
@@ -348,10 +186,10 @@ function pageDataPut(e, pageId) {
   // });
 }
 
-function getAndRenderAlbums() {
+function getAndRenderAlbums(url) {
     window.location.hash = "#album/";
     var client = new HttpClient();
-    client.get("/admin/album", true, function(response) {
+    client.get(url, true, function(response) {
         var res = JSON.parse(response);
         document.getElementById('containerData').innerHTML = `
         <div class="row">
@@ -370,9 +208,9 @@ function getAndRenderAlbums() {
         for (var i = 0; i < res.data.length; i++) {
           // Get first image:
           document.getElementById('containerData_AlbumRow').innerHTML += `
-          <div class="col-xs-6 col-md-3 cursorPointer">
+          <div class="col-xs-6 col-md-3">
             <div class="thumbnail" onclick='loadAlbumId("${res.data[i]._id}")'>
-            <img alt="${res.data[i].name}" id="${res.data[i]._id}Album" src="${"/admin/bilde/"+res.data[i].imgs[0]._id}">
+            <img alt="${res.data[i].name}" id="${res.data[i]._id}Album">
               <div class="caption">
                 <h3>${res.data[i].name}</h3>
                 <p>${res.data[i].description}</p>
@@ -380,6 +218,10 @@ function getAndRenderAlbums() {
             </div>
           </div>
           `;
+          new HttpClient().get('/admin/bilde/' + res.data[i].imgs[0]._id, false, function(imgResponse) {
+            document.getElementById(res.data[i]._id+'Album').setAttribute('src', "data:image/jpg;base64,"+imgResponse);
+          });
+
 
         }
 
@@ -395,7 +237,7 @@ function postAlbum(e, form) {
   var oReq = new XMLHttpRequest();
   console.log(new FormData(form));
   oReq.upload.addEventListener("progress", updateProgress);
-  oReq.onload = ajaxSuccessRenderAlbums;
+  oReq.onload = ajaxSuccess;
   oReq.open("post", form.action, true);
   oReq.send(new FormData(form));
 }
@@ -408,7 +250,7 @@ function putAlbum(e, form, id) {
   console.log(form.img);
   var oReq = new XMLHttpRequest();
   oReq.upload.addEventListener("progress", updateProgress);
-  oReq.onload = ajaxSuccessPutAlbum;
+  oReq.onload = ajaxSuccess;
   oReq.open("PUT", "/admin/album/"+id, true);
   if (form.img.value.length > 4) {
     oReq.send(new FormData(form));
@@ -422,7 +264,7 @@ function putAlbum(e, form, id) {
 }
 function slettAlbum(id) {
   var oReq = new XMLHttpRequest();
-  oReq.onload = ajaxSuccessRenderAlbums;
+  oReq.onload = ajaxSuccess;
   oReq.open("delete", "/admin/album/"+id, true);
   oReq.send(null);
 }
@@ -446,32 +288,15 @@ function loadAlbumId(id) {
       </form>
     </div>
     <br>
-    <row>Marker bilder og trykk slett bilder for å slette spesifikke bilder. <button class="btn btn-danger" onclick='deleteImages("${res.data._id}")'>Slett bilder</button></row>
-    <br>
-    <br>
     `;
     for (var j = 0; j < res.data.imgs.length; j++) {
+      new HttpClient().get('/admin/bilde/' + res.data.imgs[j]._id, true, function(image) {
         document.getElementById('containerData').innerHTML += `
-        <div class="col-xs-6 col-sm-4 col-md-3">
-        <img class="img-responsive img-thumbnail" src="${'/admin/bilde/' + res.data.imgs[j]._id}">
-        <div class="checkbox">
-          <label><input type="checkbox" value="${res.data.imgs[j]._id}" class="imgMarkDelete">Marker for sletting</label>
-        </div>
-        </div>
+        <img  height="300" src="data:image/jpg;base64,${image}">
         `;
+      });
     }
   });
-}
-function deleteImages(id) {
-  var checkedImgs = Array.prototype.slice.call(document.querySelectorAll(".imgMarkDelete:checked")).map(function (x) {
-    return x.value;
-  });
-  var oReq = new XMLHttpRequest();
-  oReq.upload.addEventListener("progress", updateProgress);
-  oReq.onload = ajaxSuccessPutAlbum;
-  oReq.open("DELETE", "/admin/bilde/"+id, true);
-  oReq.setRequestHeader("content-type", "application/json");
-  oReq.send(JSON.stringify(checkedImgs));
 }
 function convertStringTimeToDate(string) {
     return new Date(string).toString().substring(0, 21);
@@ -529,46 +354,6 @@ function ajaxSuccess () {
     </div>
     `;
   }
-}
-function ajaxSuccessPutAlbum () {
-  console.log(this.responseText);
-  var res = JSON.parse(this.response);
-  if (res.err) {
-    document.getElementById('requestMsgBox').innerHTML = `
-    <div class="alert alert-danger alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>Error!</strong> ${res.msg}
-    </div>
-    `;
-  } else if (res.msg) {
-    document.getElementById('requestMsgBox').innerHTML = `
-    <div class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>Vellykket!</strong> ${res.msg}
-    </div>
-    `;
-  }
-  loadAlbumId(res.data);
-}
-function ajaxSuccessRenderAlbums () {
-  console.log(this.responseText);
-  var res = JSON.parse(this.response);
-  if (res.err) {
-    document.getElementById('requestMsgBox').innerHTML = `
-    <div class="alert alert-danger alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>Error!</strong> ${res.msg}
-    </div>
-    `;
-  } else if (res.msg) {
-    document.getElementById('requestMsgBox').innerHTML = `
-    <div class="alert alert-success alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>Vellykket!</strong> ${res.msg}
-    </div>
-    `;
-  }
-  getAndRenderAlbums();
 }
 
 function updateProgress (oEvent) {
