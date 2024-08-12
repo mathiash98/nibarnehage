@@ -1,24 +1,24 @@
 <footer class="footer center-text">
-    &#169; 2024 Copyright Nesttun Indremisjon <a href="/admin">Admin</a>
+  &#169; 2024 Copyright Nesttun Indremisjon <a href="/admin">Admin</a>
 </footer>
 
 <script type="text/javascript">
   var currentLocation = window.location.pathname;
-  document.getElementById('navUrl'+currentLocation).className += " active";
-  if(document.getElementsByClassName('sb-cancel')[0]) {
-    document.onkeydown = function(evt) {
+  document.getElementById("navUrl" + currentLocation).className += " active";
+  if (document.getElementsByClassName("sb-cancel")[0]) {
+    document.onkeydown = function (evt) {
       evt = evt || window.event;
       if (evt.keyCode == 27) {
-        document.getElementsByClassName('sb-cancel')[0].click();
+        document.getElementsByClassName("sb-cancel")[0].click();
       } else if (evt.keyCode == 37) {
-        document.getElementsByClassName('sb-prev')[0].click();
+        document.getElementsByClassName("sb-prev")[0].click();
       } else if (evt.keyCode == 39) {
-        document.getElementsByClassName('sb-next')[0].click();
+        document.getElementsByClassName("sb-next")[0].click();
       }
     };
   }
 </script>
 
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script> -->
-<!-- <script src="js/smoothbox.jquery2.min.js" charset="utf-8"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="js/smoothbox.jquery2.min.js" charset="utf-8"></script>
 <script src="js/bootstrap.min.js" charset="utf-8"></script>
