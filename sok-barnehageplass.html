@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="no">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Søk barnehageplass i Nesttun Indremisjons Barnehage gjennom Bergen Kommune sitt søknadsskjema. Viktig frist: 1. mars.">
+    <title>Søk Barnehageplass - Nesttun Indremisjons Barnehage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&family=Quicksand:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/components.js"></script>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <barnehage-navbar active="sok"></barnehage-navbar>
+
+    <!-- Header Section -->
+    <section class="section section-center">
+        <h1>Hvordan søke Barnehageplass i Bergen Kommune</h1>
+        <div class="divider"></div>
+        <p style="max-width: 700px; margin: 1rem auto;">
+            For å søke barnehageplass må du søke via Bergen Kommune sitt nettsted. Her er en kort guide.
+        </p>
+        <p style="max-width: 700px; margin: 1rem auto; font-size: 1.25rem;">
+            Husk å søke før <strong style="color: var(--peach);">1. mars!</strong>
+        </p>
+    </section>
+
+    <!-- Step 1 -->
+    <section class="section">
+        <div class="step">
+            <div class="step-content">
+                <h2>Steg 1</h2>
+                <div class="divider" style="margin-left: 0;"></div>
+                <ul class="step-list">
+                    <li>Gå inn på <a
+                            href="https://www.bergen.kommune.no/innbyggerhjelpen/barnehage-og-skole/barnehage/barnehageplass/barnehageplass-soke-eller-endre-soknad"
+                            target="_blank" style="color: var(--peach); text-decoration: none; font-weight: 600;">Bergen
+                            Kommune sitt søknadsskjema</a></li>
+                    <li>Klikk på <strong>Søk Barnehage-plass</strong></li>
+                    <li>Ikke logg inn om det er ny søknad</li>
+                </ul>
+            </div>
+            <div class="step-image">
+                <img src="public/images/sok-barnehageplass-1.png" alt="Søk Barnehageplass steg 1"
+                    onerror="this.style.display='none'">
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 2 -->
+    <section class="section">
+        <div class="step">
+            <div class="step-image">
+                <img src="public/images/sok-barnehageplass-2.png" alt="Søk Barnehageplass steg 2"
+                    onerror="this.style.display='none'">
+            </div>
+            <div class="step-content">
+                <h2>Steg 2</h2>
+                <div class="divider" style="margin-left: 0;"></div>
+                <ul class="step-list">
+                    <li>Søk etter <strong>Nesttun Indremisjons Barnehage</strong></li>
+                    <li>Klikk på <strong>Søk</strong></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Step 3 -->
+    <section class="section">
+        <div class="step">
+            <div class="step-content">
+                <h2>Steg 3</h2>
+                <div class="divider" style="margin-left: 0;"></div>
+                <ul class="step-list">
+                    <li>Legg til Nesttun Indremisjons Barnehage</li>
+                    <li>Klikk på <strong>Start registrering av søknad</strong></li>
+                    <li>Følg instruksjonene for å fullføre søknaden</li>
+                </ul>
+            </div>
+            <div class="step-image">
+                <img src="public/images/sok-barnehageplass-3.png" alt="Søk Barnehageplass steg 3"
+                    onerror="this.style.display='none'">
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section section-center" style="margin: 4rem auto;">
+        <a href="https://www.bergen.kommune.no/innbyggerhjelpen/barnehage-og-skole/barnehage/barnehageplass/barnehageplass-soke-eller-endre-soknad"
+            target="_blank" class="btn btn-primary btn-large">
+            Søk nå
+        </a>
+    </section>
+
+    <!-- Info Box -->
+    <section class="section">
+        <div class="card"
+            style="max-width: 800px; margin: 0 auto; background: linear-gradient(135deg, var(--soft-coral), var(--mint));">
+            <h3 style="color: var(--text-dark);">Har du spørsmål?</h3>
+            <p style="color: var(--text-dark); margin-bottom: 1rem;">
+                Ta gjerne kontakt med oss om du har spørsmål om søknadsprosessen eller ønsker å vite mer om barnehagen.
+            </p>
+            <p style="color: var(--text-dark); margin: 0;">
+                <strong>Telefon:</strong> <a href="tel:+4755100724"
+                    style="color: var(--peach); text-decoration: none; font-weight: 600;">55 10 07 24</a><br>
+                <strong>E-post:</strong> <a href="mailto:nesttun.barnehage@indrem.no"
+                    style="color: var(--peach); text-decoration: none; font-weight: 600;">nesttun.barnehage@indrem.no</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <barnehage-footer></barnehage-footer>
+
+    <script src="js/navbar.js"></script>
+</body>
+
+</html>

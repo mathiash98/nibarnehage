@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nesttun Indremisjons Barnehage - Brand Guidelines</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&family=Quicksand:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --peach: #FFB5A7;
+            --soft-coral: #FCD5CE;
+            --mint: #C9E4DE;
+            --lavender: #E8D5F2;
+            --cream: #FFF8F3;
+            --warm-gray: #8B7E74;
+            --soft-brown: #A89F91;
+            --text-dark: #4A4A4A;
+        }
+
+        [data-theme="dark"] {
+            --peach: #CC8A7A;
+            --soft-coral: #D4ABA4;
+            --mint: #A8C4BE;
+            --lavender: #C4B0D1;
+            --cream: #2D2621;
+            --warm-gray: #B5A89D;
+            --soft-brown: #CCC3B5;
+            --text-dark: #E8E8E8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #D68A7E 0%, #C5A8D6 100%);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+            border-radius: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        h1 {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        h2 {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 2.25rem;
+            color: var(--text-dark);
+            margin: 3rem 0 1.5rem;
+        }
+
+        h3 {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            font-size: 1.5rem;
+            color: var(--text-dark);
+            margin: 2rem 0 1rem;
+        }
+
+        p {
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+            color: var(--warm-gray);
+        }
+
+        .hero p {
+            color: rgba(255, 255, 255, 1);
+            font-size: 1.5rem;
+            font-weight: 600;
+            max-width: 700px;
+            margin: 1rem auto;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--peach);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            border-radius: 2rem;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .color-card {
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .color-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .color-swatch {
+            height: 140px;
+            width: 100%;
+        }
+
+        .color-info {
+            padding: 1.25rem;
+            background: white;
+        }
+
+        [data-theme="dark"] .color-info {
+            background: #3a3330;
+        }
+
+        .color-name {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .color-value {
+            font-family: 'DM Sans', monospace;
+            font-size: 0.875rem;
+            color: var(--warm-gray);
+        }
+
+        .typography-sample {
+            margin: 2rem 0;
+            padding: 2.5rem;
+            background: white;
+            border-radius: 2rem;
+        }
+
+        [data-theme="dark"] .typography-sample {
+            background: #3a3330;
+        }
+
+        .font-family {
+            font-family: 'DM Sans', monospace;
+            font-size: 0.875rem;
+            color: var(--peach);
+            margin-bottom: 0.75rem;
+        }
+
+        .sample-headline {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 2.75rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .sample-subheading {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .sample-body {
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1.125rem;
+            line-height: 1.7;
+            color: var(--warm-gray);
+        }
+
+        .image-prompt {
+            background: var(--peach);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            font-family: 'DM Sans', monospace;
+            font-size: 0.875rem;
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .image-card {
+            background: white;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        [data-theme="dark"] .image-card {
+            background: #3a3330;
+        }
+
+        .image-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .image-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .image-card-info {
+            padding: 1.25rem;
+        }
+
+        .image-card-title {
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .principles-list {
+            list-style: none;
+            padding: 2rem;
+            background: white;
+            border-radius: 2rem;
+        }
+
+        [data-theme="dark"] .principles-list {
+            background: #3a3330;
+        }
+
+        .principles-list li {
+            margin-bottom: 1.25rem;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--warm-gray);
+        }
+
+        .principles-list li::before {
+            content: '○';
+            position: absolute;
+            left: 0;
+            color: var(--peach);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        .mode-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .mode-sample {
+            padding: 2rem;
+            border-radius: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .light-mode-sample {
+            background: #FFF8F3;
+            color: #4A4A4A;
+        }
+
+        .dark-mode-sample {
+            background: #2D2621;
+            color: #E8E8E8;
+        }
+
+        .sample-heading {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .sample-text {
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.6;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .mode-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" onclick="toggleTheme()">Bytt til mørkt modus</button>
+
+    <div class="hero">
+        <h1>Nesttun Indremisjons Barnehage</h1>
+        <p>Soft & Organic - Trygt, varmt og lekent</p>
+    </div>
+
+    <div class="container">
+        <section>
+            <h2>Design Philosophy</h2>
+            <p>En barnehage trenger et design som føles trygt, varmt og innbydende. Vi bruker myke pastellfarger, avrundede former og naturinspirerte elementer for å skape en følelse av omsorg og barnlig glede. Designet skal gjenspeile verdiene til en liten, kristen barnehage med fokus på trygghet, utendørsaktiviteter og nestekjærlighet.</p>
+        </section>
+
+        <section>
+            <h2>Color Palette</h2>
+            <div class="color-palette">
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #FFB5A7;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Soft Peach</div>
+                        <div class="color-value">#FFB5A7</div>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Primær - Varm og trygg</p>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #FCD5CE;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Soft Coral</div>
+                        <div class="color-value">#FCD5CE</div>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Sekundær - Mild og leken</p>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #C9E4DE;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Mint Green</div>
+                        <div class="color-value">#C9E4DE</div>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Aksent - Natur og friskhet</p>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #E8D5F2;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Soft Lavender</div>
+                        <div class="color-value">#E8D5F2</div>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Aksent - Rolig og kreativ</p>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #FFF8F3; border: 2px solid #E0E0E0;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Warm Cream</div>
+                        <div class="color-value">#FFF8F3</div>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Bakgrunn - Ren og varm</p>
+                    </div>
+                </div>
+                <div class="color-card">
+                    <div class="color-swatch" style="background: #8B7E74;"></div>
+                    <div class="color-info">
+                        <div class="color-name">Warm Gray</div>
+                        <div class="color-value">#8B7E74</div>
+                        <p style="font-size: 0.875rem; margin-top: 0.5rem;">Tekst - Myk kontrast</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Light & Dark Mode Comparison</h2>
+            <div class="mode-comparison">
+                <div class="mode-sample light-mode-sample">
+                    <div class="sample-heading" style="color: #FFB5A7;">Lys Modus</div>
+                    <p class="sample-text">Hovedvisningen bruker varme kremtoner med myke pastellfarger. Perfekt for en vennlig, innbydende følelse som passer for foreldre som besøker siden.</p>
+                </div>
+                <div class="mode-sample dark-mode-sample">
+                    <div class="sample-heading" style="color: #CC8A7A;">Mørk Modus</div>
+                    <p class="sample-text">Dempede farger med behagelig kontrast for kveldslesing. Fargene justeres for å opprettholde den myke, varme estetikken selv i mørk modus.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Typography</h2>
+
+            <div class="typography-sample">
+                <div class="font-family">Nunito - Weight: 800</div>
+                <div class="sample-headline">Velkommen til Nesttun Indremisjons Barnehage</div>
+                <p style="color: var(--warm-gray); margin-top: 1rem;">Brukes til: Overskrifter, hero-tekst, hovedtitler</p>
+            </div>
+
+            <div class="typography-sample">
+                <div class="font-family">Quicksand - Weight: 700</div>
+                <div class="sample-subheading">En liten og trygg kristen barnehage</div>
+                <p style="color: var(--warm-gray); margin-top: 1rem;">Brukes til: Undertitler, seksjonsoverskrifter</p>
+            </div>
+
+            <div class="typography-sample">
+                <div class="font-family">DM Sans - Weight: 400/500</div>
+                <div class="sample-body">
+                    Vi er en enavdelingsbarnehage med 19 plasser for barn i alderen 1-6 år.
+                    Med våre 4 ansatte, derav 3 pedagoger, skaper vi et trygt og varmt miljø hvor
+                    hvert barn blir sett og verdsatt. Vi legger stor vekt på kristne verdier,
+                    utendørsaktiviteter og nestekjærlighet i hverdagen.
+                </div>
+                <p style="color: var(--warm-gray); margin-top: 1rem;">Brukes til: Brødtekst, beskrivelser, navigasjon</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Bildegalleri</h2>
+            <p>Autentiske bilder fra barnehagens lokaler og aktiviteter.</p>
+
+            <div class="image-gallery" id="imageGallery">
+                <div class="image-card">
+                    <img src="public/images/puterommet-1.jpg" alt="Puterommet">
+                    <div class="image-card-info">
+                        <div class="image-card-title">Puterommet</div>
+                        <p style="font-size: 0.875rem;">Cozy reading nook with soft cushions</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="public/images/kylling.jpg" alt="Kylling">
+                    <div class="image-card-info">
+                        <div class="image-card-title">Kylling</div>
+                        <p style="font-size: 0.875rem;">Annual chicken hatching activity</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="public/images/uteomrade.jpg" alt="Uteområde">
+                    <div class="image-card-info">
+                        <div class="image-card-title">Uteområde</div>
+                        <p style="font-size: 0.875rem;">Outdoor play area</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="public/images/skoytebane.jpg" alt="Skøytebane">
+                    <div class="image-card-info">
+                        <div class="image-card-title">Skøytebane</div>
+                        <p style="font-size: 0.875rem;">Ice skating at Slåtthaug</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="public/images/familiekrok.jpg" alt="Familiekrok">
+                    <div class="image-card-info">
+                        <div class="image-card-title">Familiekrok</div>
+                        <p style="font-size: 0.875rem;">Family corner with dolls</p>
+                    </div>
+                </div>
+                <div class="image-card">
+                    <img src="public/images/klosser.jpg" alt="Klosser">
+                    <div class="image-card-info">
+                        <div class="image-card-title">Klosser</div>
+                        <p style="font-size: 0.875rem;">Building blocks play area</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2>Image Prompts</h2>
+            <p>Konsistente prompts sikrer sammenhengende visuell stil på tvers av alle genererte bilder.</p>
+
+            <h3>Hero Carousel - Inne områder</h3>
+            <div class="image-prompt">
+Generate a warm, inviting photograph of a cozy kindergarten indoor play area with soft natural lighting from large windows, featuring colorful cushions and soft toys in a reading nook, pastel colored walls in warm cream and soft peach tones, wooden floors, rounded furniture corners, Scandinavian minimalist design with organic natural elements, ultra-realistic, professional interior photography, shallow depth of field, golden hour warm light
+            </div>
+
+            <h3>Hero Carousel - Ute områder</h3>
+            <div class="image-prompt">
+Generate a photograph of Norwegian kindergarten outdoor playground in autumn, children playing on wooden climbing structures, vibrant fall leaves in orange and yellow, pine trees in background, natural grass and bark mulch ground, Bergen mountain landscape visible, overcast Nordic sky with soft diffused light, ultra-realistic, professional photography, warm nostalgic atmosphere
+            </div>
+
+            <h3>Kylling (Chicken hatching)</h3>
+            <div class="image-prompt">
+Generate a heartwarming photograph of adorable yellow baby chicks in an incubator inside a kindergarten classroom, soft focused background showing curious children's hands gently near the chicks (not touching), warm yellow heat lamp glow, ultra-realistic close-up, shallow depth of field, tender caring atmosphere, professional nature photography
+            </div>
+
+            <h3>Skøytebane (Ice skating)</h3>
+            <div class="image-prompt">
+Generate a photograph of young Norwegian children ice skating on an outdoor ice rink in winter, wearing colorful winter clothes and helmets, snow-covered mountains in background, winter day with soft overcast light, happy joyful atmosphere, ultra-realistic, professional sports photography, Bergen Norway setting
+            </div>
+
+            <h3>Om oss - Staff/Team</h3>
+            <div class="image-prompt">
+Generate a warm photograph of friendly Norwegian kindergarten teacher of white Scandinavian appearance in her 30s-40s, smiling warmly in a bright kindergarten classroom, wearing casual comfortable teacher attire, natural window lighting, colorful children's artwork on walls in background, ultra-realistic, professional portrait, approachable caring expression
+            </div>
+
+            <h3>Uteområde med lekeutstyr</h3>
+            <div class="image-prompt">
+Generate a photograph of a safe, well-maintained Norwegian kindergarten outdoor play area, featuring wooden climbing frame, sandbox with toys, small playhouse, surrounded by green grass and trees, Bergen Norway setting with mountain backdrop, summer day with partly cloudy sky, ultra-realistic, professional photography, inviting atmosphere
+            </div>
+        </section>
+
+        <section>
+            <h2>Design Principles</h2>
+            <ul class="principles-list">
+                <li><strong>Myke former og avrundede hjørner</strong> - Skaper trygghet og barnevennlighet</li>
+                <li><strong>Varme pastellfarger</strong> - Peach, coral, mint og lavender for en rolig atmosfære</li>
+                <li><strong>Rikelig med luft</strong> - Unngå rotete layouts, la innholdet puste</li>
+                <li><strong>Naturinspirerte elementer</strong> - Reflekterer fokuset på utendørsaktiviteter</li>
+                <li><strong>Vennlige, avrundede fonter</strong> - Nunito og Quicksand for en varm følelse</li>
+                <li><strong>Autentiske bilder</strong> - Vise ekte aktiviteter som kyllinger, skøyter, utelek</li>
+                <li><strong>Mobiloptimalisert</strong> - Foreldre søker ofte fra telefonen</li>
+                <li><strong>Tilgjengelig design</strong> - God kontrast og lesbarhet for alle</li>
+                <li><strong>Kristne verdier synlige</strong> - Uten å være påtrengende</li>
+                <li><strong>Lokalt forankret</strong> - Reflekter Bergen og Nesttun området</li>
+            </ul>
+        </section>
+
+        <section style="text-align: center; padding: 3rem 0;">
+            <h2>Klar til å bygge</h2>
+            <p style="font-size: 1.25rem; max-width: 600px; margin: 1rem auto 2rem;">Disse retningslinjene sikrer en varm, trygg og profesjonell nettopplevelse for Nesttun Indremisjons Barnehage.</p>
+        </section>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const button = document.querySelector('.theme-toggle');
+            const currentTheme = html.getAttribute('data-theme');
+
+            if (currentTheme === 'dark') {
+                html.removeAttribute('data-theme');
+                button.textContent = 'Bytt til mørkt modus';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                button.textContent = 'Bytt til lyst modus';
+            }
+        }
+    </script>
+</body>
+</html>
